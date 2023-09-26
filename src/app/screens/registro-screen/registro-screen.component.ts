@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+declare var $:any;
 
 @Component({
   selector: 'app-registro-screen',
@@ -17,10 +19,12 @@ export class RegistroScreenComponent implements OnInit {
   //Para detectar errores
   public errors:any ={};
 
-  constructor() { }
+  constructor(
+    private usuariosService: UsuariosService
+  ) { }
 
   ngOnInit(): void {
-    this.user = this.esquemaUser();
+    this.user = this.usuariosService.esquemaUser();
     //Imprimir datos en consola
     console.log("User: ", this.user);
   }
@@ -64,25 +68,21 @@ export class RegistroScreenComponent implements OnInit {
     console.log("Fecha: ", this.user.fecha_nacimiento);
   }
 
-  public esquemaUser(){
-    return {
-      'matricula': '',
-      'first_name': '',
-      'last_name': '',
-      'email': '',
-      'password': '',
-      'confirmar_password': '',
-      'fecha_nacimiento': '',
-      'curp': '',
-      'rfc': '',
-      'edad': '',
-      'telefono': '',
-      'ocupacion': '',
-    }
-  }
-
   public registrar(){
-    console.log("Datos del usuario: ", this.user);
-    
+    //Validar
+    this.errors = [];
+
+    this.errors = this.usuariosService.validarUsuario(this.user);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+    //Validar la contraseña
+    if(this.user.password == this.user.confirmar_password){
+      alert("Vamos a registrar");
+    }else{
+      alert("Las contraseñas no coinciden");
+      this.user.password="";
+      this.user.confirmar_password="";
+    }
   }
 }
