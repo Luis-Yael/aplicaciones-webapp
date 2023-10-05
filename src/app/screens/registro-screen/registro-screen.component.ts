@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 declare var $:any;
 
@@ -20,7 +21,8 @@ export class RegistroScreenComponent implements OnInit {
   public errors:any ={};
 
   constructor(
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +80,16 @@ export class RegistroScreenComponent implements OnInit {
     }
     //Validar la contraseña
     if(this.user.password == this.user.confirmar_password){
-      alert("Vamos a registrar");
+      //Aquí si todo es correcto vamos a registrar - aquí se manda a llamar al servicio
+      this.usuariosService.registrarUsuario(this.user).subscribe(
+        (response)=>{
+          alert("Usuario registrado correctamente");
+          console.log("Usuario registrado: ", response);
+          this.router.navigate(["/"]);
+        }, (error)=>{
+          alert("No se pudo registrar usuario");
+        }
+      )
     }else{
       alert("Las contraseñas no coinciden");
       this.user.password="";
