@@ -3,7 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 //Este import es para los servicios HTTP
 import { HttpClientModule } from '@angular/common/http';
-
+//Mask
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+//Options mask
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginScreenComponent } from './screens/login-screen/login-screen.component';
@@ -17,7 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 //Cambia el idioma a español
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -39,7 +42,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    NgxMaskModule.forRoot(options),
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},

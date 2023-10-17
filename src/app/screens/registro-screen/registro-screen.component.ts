@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 declare var $:any;
 
@@ -22,7 +23,8 @@ export class RegistroScreenComponent implements OnInit {
 
   constructor(
     private usuariosService: UsuariosService,
-    private router: Router
+    private router: Router,
+    private location : Location
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class RegistroScreenComponent implements OnInit {
   }
 
   public regresar(){
-
+    this.location.back();
   }
 
   //Funciones para password
