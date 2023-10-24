@@ -21,15 +21,18 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 //Cambia el idioma a español
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginScreenComponent,
     RegistroScreenComponent,
-    HomeScreenComponent
+    HomeScreenComponent,
+    EliminarUserModalComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatTableModule,
     MatPaginatorModule,
     NgxMaskModule.forRoot(options),
+    MatDialogModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
