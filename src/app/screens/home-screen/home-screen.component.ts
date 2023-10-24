@@ -99,6 +99,8 @@ export class HomeScreenComponent implements OnInit {
   public logout(){
     this.facadeService.logout().subscribe(
       (response)=>{
+        console.log("Entró");
+        
         this.facadeService.destroyUser();
         //Navega al login
         this.router.navigate(["/"]);
@@ -110,7 +112,7 @@ export class HomeScreenComponent implements OnInit {
 
   //Funcion para editar
   public goEditar(idUser: number){
-
+    this.router.navigate(["registro/"+idUser]);
   }
 
   //Función para eliminar

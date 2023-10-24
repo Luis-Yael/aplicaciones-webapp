@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 declare var $:any;
@@ -13,6 +13,7 @@ export class RegistroScreenComponent implements OnInit {
   //Variables del componente registro
   public editar: boolean = false;
   public user:any = {};
+  public idUser: Number = 0;
  //Para contraseñas
   public hide_1: boolean = false;
   public hide_2: boolean = false;
@@ -23,14 +24,41 @@ export class RegistroScreenComponent implements OnInit {
 
   constructor(
     private usuariosService: UsuariosService,
+    public activatedRoute: ActivatedRoute,
     private router: Router,
     private location : Location
   ) { }
 
   ngOnInit(): void {
     this.user = this.usuariosService.esquemaUser();
+    //El primer if valida si existe un parámetro en la URL
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idUser);
+      //Al iniciar la vista obtiene el usuario por su ID
+      this.obtenerUserByID();
+    }
     //Imprimir datos en consola
     console.log("User: ", this.user);
+  }
+
+  //Función para obtener un solo usuario por su ID
+  public obtenerUserByID(){
+    this.usuariosService.getUserByID(this.idUser).subscribe(
+      (response)=>{
+        this.user = response;
+        //Agregamos valores faltantes
+        this.user.first_name = response.user.first_name;
+        this.user.last_name = response.user.last_name;
+        this.user.email = response.user.email;
+        this.user.fecha_nacimiento = response.fecha_nacimiento.split("T")[0];
+        console.log("Datos user: ", this.user);
+      }, (error)=>{
+        alert("No se pudieron obtener los datos del usuario para editar");
+      }
+    );
   }
 
   public regresar(){
@@ -97,5 +125,9 @@ export class RegistroScreenComponent implements OnInit {
       this.user.password="";
       this.user.confirmar_password="";
     }
+  }
+
+  public actualizar(){
+    
   }
 }
